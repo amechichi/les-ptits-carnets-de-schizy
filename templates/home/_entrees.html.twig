@@ -1,0 +1,55 @@
+{# Notes récentes.
+   Valeurs par défaut : passez `entrees` depuis le contrôleur pour les remplacer. #}
+{% set entrees = entrees|default([
+    {
+        'date': "14 sept.",
+        'titre': "Pourquoi vos archers meurent avant d'avoir tiré une flèche",
+        'extrait': "Un problème de positionnement que j'ai mis trois semaines à repérer — et la formation qui règle tout.",
+        'categorie': "Combat & sièges",
+    },
+    {
+        'date': "9 sept.",
+        'titre': "Le mur nord, ce traître silencieux",
+        'extrait': "Sur trois cartes différentes, c'est toujours par là qu'ils passent. Voici comment le condamner pour de bon.",
+        'categorie': "Défense de bastion",
+    },
+    {
+        'date': "2 sept.",
+        'titre': "Le circuit de minerai que je fais tous les matins",
+        'extrait': "Douze minutes, quatre gisements, zéro détour — noté noir sur blanc pour ne plus jamais l'oublier.",
+        'categorie': "Ressources & or",
+    },
+    {
+        'date': "27 août",
+        'titre': "Reconnaître une guilde qui prépare une trahison",
+        'extrait': "Trois signes qui ne trompent pas, observés après deux alliances rompues en plein siège.",
+        'categorie': "Guildes & alliances",
+    },
+    {
+        'date': "19 août",
+        'titre': "Le premier soir : ce que je referais autrement",
+        'extrait': "Les cinq choix qui déterminent si votre première semaine sera une conquête ou un massacre.",
+        'categorie': "Débutants",
+    },
+]) %}
+
+<section id="entrees">
+    <div class="conteneur">
+        <div class="entete-section">
+            <h2>Toutes les notes récentes</h2>
+            <p>Rangées comme dans mon carnet, dans l'ordre où je les ai griffonnées.</p>
+        </div>
+        <div class="liste-entrees">
+            {% for entree in entrees %}
+                <a class="entree" href="#">
+                    <span class="date">{{ entree.date }}</span>
+                    <div class="contenu">
+                        <h3>{{ entree.titre }}</h3>
+                        <p>{{ entree.extrait }}</p>
+                    </div>
+                    <span class="categorie-tag">{{ entree.categorie }}</span>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>

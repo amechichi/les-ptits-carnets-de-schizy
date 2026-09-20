@@ -1,0 +1,93 @@
+:root{
+    --noir: #0a0605;
+    --noir-2: #140b09;
+    --noir-3: #1c100d;
+    --sang: #5c0f18;
+    --sang-vif: #9c1a26;
+    --sang-lumineux: #c22635;
+    --or: #b6902f;
+    --or-clair: #e3c26a;
+    --or-pale: #f2ddaa;
+    --lapis: #2f4d82;
+    --lapis-clair: #4d6fae;
+    --cornaline: #b0432a;
+    --parchemin: #e9dfc9;
+    --parchemin-terne: #a8967c;
+    --ligne: rgba(182,144,47,0.28);
+}
+
+*{margin:0; padding:0; box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+    background:
+        radial-gradient(ellipse 900px 500px at 15% -5%, rgba(92,15,24,0.35), transparent 60%),
+        radial-gradient(ellipse 700px 500px at 100% 10%, rgba(182,144,47,0.08), transparent 55%),
+        var(--noir);
+    color: var(--parchemin);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    line-height: 1.65;
+    overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce){
+    *{animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important;}
+}
+
+a{ color: inherit; text-decoration: none; }
+img, svg{ display:block; max-width:100%; }
+
+::selection{ background: var(--sang-vif); color: var(--or-pale); }
+
+:focus-visible{
+    outline: 2px solid var(--or-clair);
+    outline-offset: 3px;
+}
+
+h1, h2, h3, .display{
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--or-pale);
+}
+
+.conteneur{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+/* ---------- ornements ---------- */
+.diviseur{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 18px;
+    color: var(--or);
+}
+.diviseur .trait{
+    height:1px;
+    width: 90px;
+    background: linear-gradient(90deg, transparent, var(--or), transparent);
+}
+.diviseur svg{ width: 20px; height: 20px; flex-shrink:0; }
+
+/* ---------- sections ---------- */
+section{ padding: 90px 0; position:relative; }
+
+.entete-section{
+    text-align:center;
+    max-width: 620px;
+    margin: 0 auto 56px;
+}
+.entete-section h2{ font-size: clamp(1.8rem, 3.2vw, 2.5rem); margin-bottom:14px; }
+.entete-section p{ color: var(--parchemin-terne); font-size: 1.15rem; }
+
+@media (max-width: 880px){
+    .conteneur{ padding-left: 24px; padding-right: 24px; }
+}
+@media (max-width: 560px){
+    section{ padding: 64px 0; }
+}

@@ -1,0 +1,36 @@
+footer{
+    border-top: 1px solid var(--ligne);
+    padding: 60px 0 40px;
+}
+.pied-grille{
+    display:flex;
+    justify-content: space-between;
+    align-items:flex-start;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+footer .signature{
+    font-family:'Caveat', cursive;
+    font-size: 1.7rem;
+    color: var(--or-clair);
+}
+footer .liens-sociaux{ display:flex; gap: 22px; }
+footer .liens-sociaux a{
+    font-size: 0.95rem;
+    color: var(--parchemin-terne);
+    border-bottom: 1px solid transparent;
+    transition: color 0.25s ease, border-color 0.25s ease;
+}
+footer .liens-sociaux a:hover{ color: var(--or-clair); border-color: var(--or); }
+footer .mention{
+    margin-top: 34px;
+    font-size: 0.85rem;
+    color: rgba(168,150,124,0.55);
+    text-align:center;
+}
+
+.crete-pied{
+    display:flex;
+    align-items:center;
+    gap: 14px;
+}

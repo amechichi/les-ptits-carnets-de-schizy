@@ -1,0 +1,88 @@
+header{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10, 6, 5, 0.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--ligne);
+}
+.barre-nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 18px 40px;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+.marque{
+    display:flex;
+    align-items:center;
+    gap: 14px;
+}
+.sceau{ width: 40px; height: 40px; flex-shrink:0; }
+.marque .nom{
+    font-family:'Cinzel', serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.03em;
+    color: var(--or-pale);
+    line-height:1.15;
+}
+.marque .nom span{
+    display:block;
+    font-family:'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.72rem;
+    color: var(--parchemin-terne);
+    letter-spacing: 0.08em;
+}
+nav.liens{ display:flex; gap: 34px; }
+nav.liens a{
+    font-size: 1rem;
+    color: var(--parchemin);
+    position: relative;
+    padding: 4px 0;
+    transition: color 0.25s ease;
+}
+nav.liens a::after{
+    content:'';
+    position:absolute;
+    left:0; right:0; bottom:-2px;
+    height:1px;
+    background: var(--or);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s ease;
+}
+nav.liens a:hover{ color: var(--or-clair); }
+nav.liens a:hover::after{ transform: scaleX(1); transform-origin: left; }
+
+.bouton-menu{
+    display:none;
+    background:none;
+    border: 1px solid var(--ligne);
+    border-radius: 4px;
+    width: 42px; height: 38px;
+    color: var(--or-clair);
+    font-size: 1.3rem;
+    cursor:pointer;
+}
+
+@media (max-width: 880px){
+    .barre-nav{ padding-left: 24px; padding-right: 24px; }
+    nav.liens{ display:none; }
+    .bouton-menu{ display:block; }
+
+    /* menu déplié (classe ajoutée par assets/js/menu.js) */
+    nav.liens.est-ouvert{
+        display:flex;
+        flex-direction:column;
+        gap: 16px;
+        position:absolute;
+        top: 68px;
+        right: 24px;
+        padding: 18px 24px;
+        background: var(--noir-2);
+        border: 1px solid var(--ligne);
+        border-radius: 4px;
+    }
+}

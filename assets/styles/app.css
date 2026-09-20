@@ -1,0 +1,12 @@
+/* Point d'entrée des styles. L'ordre des imports suit l'ordre de la page. */
+@import "base.css";
+@import "header.css";
+@import "medaillon.css";
+@import "hero.css";
+@import "portrait-cadre.css";
+@import "une.css";
+@import "categories.css";
+@import "entrees.css";
+@import "citation.css";
+@import "footer.css";
+@import "section-portrait.css";

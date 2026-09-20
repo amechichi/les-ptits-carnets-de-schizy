@@ -1,0 +1,40 @@
+.section-portrait{
+    position:relative;
+    padding: 0;
+    margin: 0;
+    overflow:hidden;
+}
+.section-portrait .fond{
+    position:absolute; inset:0;
+    background-image: var(--img-fond);
+    background-size: cover;
+    background-position: center 20%;
+    filter: saturate(0.9);
+}
+.section-portrait .voile{
+    position:absolute; inset:0;
+    background:
+        linear-gradient(90deg, rgba(10,6,5,0.94) 0%, rgba(10,6,5,0.72) 38%, rgba(10,6,5,0.35) 68%, rgba(10,6,5,0.75) 100%),
+        linear-gradient(0deg, rgba(10,6,5,0.9) 0%, transparent 30%, transparent 75%, rgba(10,6,5,0.9) 100%);
+}
+.section-portrait .contenu-portrait{
+    position:relative;
+    max-width: 620px;
+    padding: 130px 40px;
+    margin: 0 auto;
+}
+.section-portrait .etiquette{
+    display:inline-block;
+    font-family:'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    color: var(--or-clair);
+    margin-bottom: 18px;
+}
+.section-portrait h2{ font-size: clamp(1.8rem, 3vw, 2.3rem); margin-bottom: 22px; }
+.section-portrait p{ color: var(--parchemin); font-size: 1.18rem; margin-bottom: 16px; }
+.section-portrait p:last-of-type{ margin-bottom: 0; }
+
+@media (max-width: 880px){
+    .section-portrait .contenu-portrait{ margin: 0 auto; text-align:center; padding: 90px 24px; }
+}

@@ -1,0 +1,27 @@
+.grille-categories{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+.carte-categorie{
+    background: var(--noir-2);
+    border: 1px solid var(--ligne);
+    border-radius: 3px;
+    padding: 34px 28px;
+    transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+}
+.carte-categorie:hover{
+    transform: translateY(-6px);
+    border-color: var(--or);
+    background: var(--noir-3);
+}
+.carte-categorie svg{ width: 34px; height:34px; color: var(--or-clair); margin-bottom: 20px; }
+.carte-categorie h3{ font-size: 1.25rem; margin-bottom: 10px; }
+.carte-categorie p{ color: var(--parchemin-terne); font-size: 1.05rem; }
+
+@media (max-width: 880px){
+    .grille-categories{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px){
+    .grille-categories{ grid-template-columns: 1fr; }
+}

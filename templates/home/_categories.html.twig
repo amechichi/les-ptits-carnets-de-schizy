@@ -1,0 +1,53 @@
+{# Chapitres du carnet.
+   Les données ci-dessous sont des valeurs par défaut : passez `categories` depuis le contrôleur pour les remplacer.
+   `icone` est du SVG de confiance défini ici (d'où le |raw). #}
+{% set categories = categories|default([
+    {
+        'icone': '<path d="M6 3 L18 15 M18 3 L6 15 M12 15 L12 21 M9 21 L15 21"/>',
+        'titre': "Combat & sièges",
+        'texte': "Ordres de bataille, timing des vagues, erreurs à ne plus jamais refaire.",
+    },
+    {
+        'icone': '<path d="M4 8 L12 3 L20 8 L20 14 C20 18 16 21 12 22 C8 21 4 18 4 14 Z"/>',
+        'titre': "Défense de bastion",
+        'texte': "Où poser vos murs, vos pièges, et combien de garde laisser la nuit.",
+    },
+    {
+        'icone': '<path d="M12 2 C12 2 7 8 7 13 A5 5 0 0 0 17 13 C17 8 12 2 12 2 Z"/>',
+        'titre': "Ressources & or",
+        'texte': "Circuits de récolte, priorités de bâtiments, et ce que j'aurais dû construire en premier.",
+    },
+    {
+        'icone': '<path d="M4 10 L7 4 L10 8 L12 3 L14 8 L17 4 L20 10 Z M5 10 L19 10 L18 18 L6 18 Z"/>',
+        'titre': "Guildes & alliances",
+        'texte': "Négocier une trêve, choisir ses alliés, et repérer une guilde qui trahit d'avance.",
+    },
+    {
+        'icone': '<circle cx="12" cy="9" r="5"/><path d="M9 13 L7 21 L12 18 L17 21 L15 13"/>',
+        'titre': "Événements saisonniers",
+        'texte': "Les fenêtres à ne pas rater et ce qui vaut vraiment vos jetons d'événement.",
+    },
+    {
+        'icone': '<path d="M12 3 C12 3 7.5 6.5 7.5 10.5 A4.5 4.5 0 0 0 16.5 10.5 C16.5 6.5 12 3 12 3 Z M12 14 L12 22 M8 17 L16 17"/>',
+        'titre': "Débutants",
+        'texte': "Ce que j'aurais aimé qu'on me dise le premier soir, avant de tout perdre.",
+    },
+]) %}
+
+<section id="categories">
+    <div class="conteneur">
+        <div class="entete-section">
+            <h2>Les chapitres du carnet</h2>
+            <p>Chaque bataille a sa page. Retrouvez mes notes classées par terrain de jeu.</p>
+        </div>
+        <div class="grille-categories">
+            {% for categorie in categories %}
+                <div class="carte-categorie">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">{{ categorie.icone|raw }}</svg>
+                    <h3>{{ categorie.titre }}</h3>
+                    <p>{{ categorie.texte }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

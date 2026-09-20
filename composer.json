@@ -8,6 +8,8 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "symfony/apache-pack": "*",
+        "symfony/asset": "8.1.*",
+        "symfony/asset-mapper": "8.1.*",
         "symfony/console": "8.1.*",
         "symfony/dotenv": "8.1.*",
         "symfony/flex": "^2",
@@ -51,7 +53,8 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "importmap:install": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"
