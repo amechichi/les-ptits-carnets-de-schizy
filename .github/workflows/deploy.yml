@@ -25,19 +25,14 @@ jobs:
             contents: read  # Requis pour faire le checkout du code
         steps:
             -   uses: actions/checkout@v4
-
             -   uses: shivammathur/setup-php@v2
                 with:
                     php-version: '8.5'
-
             -   name: Installer les dépendances
                 run: composer install #--no-dev --optimize-autoloader --no-interaction
-
             # - name: Tests (à faire avant le --no-dev si besoin de PHPUnit)
-
             -   name: Créer l'archive
                 run: zip -r app.zip . -x '.git/*' 'var/cache/*' 'var/log/*'
-
             -   uses: aws-actions/configure-aws-credentials@v4
                 with:
                     role-to-assume: arn:aws:iam::911558392127:role/deploy
@@ -48,9 +43,9 @@ jobs:
                     VERSION=${{ github.sha }}
                     aws s3 cp app.zip s3://elasticbeanstalk-eu-west-3-911558392127/$VERSION.zip
                     aws elasticbeanstalk create-application-version \
-                      --application-name mon-app \
+                      --application-name les-ptits-carnets-de-schizy \
                       --version-label $VERSION \
                       --source-bundle S3Bucket=elasticbeanstalk-eu-west-3-911558392127,S3Key=$VERSION.zip
                     aws elasticbeanstalk update-environment \
-                      --environment-name mon-env \
+                      --environment-name les-ptits-carnets-de-schizy-env \
                       --version-label $VERSION
