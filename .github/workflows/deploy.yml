@@ -46,6 +46,6 @@ jobs:
                       --application-name les-ptits-carnets-de-schizy \
                       --version-label $VERSION \
                       --source-bundle S3Bucket=elasticbeanstalk-eu-west-3-911558392127,S3Key=$VERSION.zip
-                    aws elasticbeanstalk update-environment \
+                    aws elasticbeanstalk wait update-environment \
                       --environment-name les-ptits-carnets-de-schizy-env \
                       --version-label $VERSION
