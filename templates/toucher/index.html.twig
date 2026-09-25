@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Comment calculer si je touche ?{% endblock %}
+
+{% block body %}
+
+    <style>
+        :root {
+            --bg: #10131a;
+            --card-bg: #1a1f2b;
+            --accent: #6ee7d4;
+            --accent2: #ffb454;
+            --text: #e8ebf0;
+            --muted: #9aa3b2;
+            --border: #2a3140;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        @media (prefers-color-scheme: light) {
+            :root:not([data-theme="dark"]) {
+                --bg: #f5f6fa;
+                --card-bg: #ffffff;
+                --accent: #0f9d84;
+                --accent2: #c9720a;
+                --text: #1c2230;
+                --muted: #5b6474;
+                --border: #e1e4ea;
+            }
+        }
+        .wrap {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 1.6rem;
+            margin-bottom: 0.3rem;
+            color: var(--text);
+        }
+        .subtitle {
+            color: var(--muted);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+        section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.4rem 1.6rem;
+            margin-bottom: 1.6rem;
+        }
+        h2 {
+            font-size: 1.15rem;
+            margin-top: 0;
+            margin-bottom: 0.4rem;
+            color: var(--accent);
+        }
+        .headline {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+        ul {
+            margin: 0;
+            padding-left: 0;
+            list-style: none;
+        }
+        li {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.55rem 0;
+            border-bottom: 1px dashed var(--border);
+            font-size: 0.97rem;
+        }
+        li:last-child { border-bottom: none; }
+        .label {
+            color: var(--muted);
+        }
+        .value {
+            font-weight: 600;
+            color: var(--accent2);
+            white-space: nowrap;
+        }
+        .note {
+            margin-top: 1rem;
+            padding: 0.9rem 1rem;
+            background: rgba(110, 231, 212, 0.08);
+            border-left: 3px solid var(--accent);
+            border-radius: 6px;
+            font-size: 0.92rem;
+            color: var(--text);
+        }
+        .example {
+            margin-top: 1rem;
+            padding: 1rem 1.1rem;
+            background: rgba(255, 180, 84, 0.08);
+            border-left: 3px solid var(--accent2);
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+        .example code {
+            display: block;
+            margin-top: 0.5rem;
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 0.9rem;
+            color: var(--accent2);
+        }
+        .result {
+            margin-top: 0.6rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+    </style>
+
+<div class="wrap">
+  <h1>Toucher Yog — Calculs de précision</h1>
+  <p class="subtitle">Récapitulatif des seuils de précision / init nécessaires selon les configurations.</p>
+
+  <section>
+    <h2>Toucher Yog au gun</h2>
+    <div class="headline">629 percep de base</div>
+    <ul>
+      <li><span class="label">MP5K</span><span class="value">629 / 1.54 = 452 percep</span></li>
+      <li><span class="label">Scorpions</span><span class="value">629 / 1.38 = 505 percep</span></li>
+      <li><span class="label">MP5K + set Tigre</span><span class="value">629 / 1.54 / 1.05 = 431</span></li>
+      <li><span class="label">Scorpions + set Tigre</span><span class="value">629 / 1.38 / 1.05 = 481</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Toucher Yog en AAD</h2>
+    <div class="headline">1497 init de base</div>
+    <p style="color: var(--muted); margin-top:-0.6rem;">Exemple : œil faucon 20% + shuriken 34% + 16% 6ᵉ sens = 70% de chances de toucher</p>
+    <ul>
+      <li><span class="label">Stats nécessaires pour toucher</span><span class="value">1497 / 1.70 = 880</span></li>
+      <li><span class="label">Avec set Tigre épique</span><span class="value">1497 / 1.70 / 1.05 = 838</span></li>
+    </ul>
+
+    <div class="note">
+      2 de précision = 1 stat virtuelle. Avec un shuriken, vous pouvez donc compter la moitié de votre bonus de précision de l'arme + la moitié de votre force comme stats virtuelles.
+    </div>
+
+    <div class="example">
+      Exemple : 770 d'init, shuriken à +25 précision, 120 de force
+      <code>770 + (25 + 120) / 2 = 842</code>
+      <div class="result">842 &gt; 838 → ça touche ✔</div>
+    </div>
+  </section>
+</div>
+{% endblock %}
