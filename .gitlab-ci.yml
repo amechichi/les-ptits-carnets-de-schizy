@@ -17,9 +17,7 @@ variables:
     # Vérifie qu'ils existent déjà dans ton compte (créés par défaut si tu as
     # déjà créé un environnement via la console) :
     #   aws iam get-instance-profile --instance-profile-name aws-elasticbeanstalk-ec2-role
-    #   aws iam get-role --role-name aws-elasticbeanstalk-service-role
     EB_INSTANCE_PROFILE: aws-elasticbeanstalk-ec2-role
-    EB_SERVICE_ROLE: aws-elasticbeanstalk-service-role
 
 # Équivalent du job "run_job_with_aws" : affiche les claims du token OIDC
 show_oidc_token_claims:
