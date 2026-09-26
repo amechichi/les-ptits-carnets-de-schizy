@@ -5,7 +5,7 @@ stages:
 
 variables:
   AWS_REGION: eu-west-3
-  ROLE_ARN: arn:aws:iam::911558392127:role/deploy
+  ROLE_ARN: arn:aws:iam::911558392127:role/deploy-gitlab
   S3_BUCKET: elasticbeanstalk-eu-west-3-911558392127
   EB_APPLICATION: les-ptits-carnets-de-schizy
   EB_ENVIRONMENT: les-ptits-carnets-de-schizy-env
