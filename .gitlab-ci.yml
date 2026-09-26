@@ -1,0 +1,72 @@
+stages:
+  - debug
+  - build
+  - deploy
+
+variables:
+  AWS_REGION: eu-west-3
+  ROLE_ARN: arn:aws:iam::911558392127:role/deploy
+  S3_BUCKET: elasticbeanstalk-eu-west-3-911558392127
+  EB_APPLICATION: les-ptits-carnets-de-schizy
+  EB_ENVIRONMENT: les-ptits-carnets-de-schizy-env
+
+# Équivalent du job "run_job_with_aws" : affiche les claims du token OIDC
+show_oidc_token_claims:
+  stage: debug
+  image: python:3.12-slim
+  id_tokens:
+    AWS_ID_TOKEN:
+      aud: sts.amazonaws.com
+  script:
+    - echo "$AWS_ID_TOKEN" | cut -d'.' -f2 | base64 -d 2>/dev/null | python3 -m json.tool
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+# Équivalent des steps checkout / setup-php / composer install / zip
+build:
+  stage: build
+  image: composer:2  # basé sur PHP 8.x + composer, ajustez la version si besoin de PHP 8.5 précis
+  script:
+    - composer install # --no-dev --optimize-autoloader --no-interaction
+    # - Tests (à faire avant le --no-dev si besoin de PHPUnit)
+    - apt-get update -y && apt-get install -y zip
+    - zip -r app.zip . -x '.git/*' 'var/cache/*' 'var/log/*'
+  artifacts:
+    paths:
+      - app.zip
+    expire_in: 1 hour
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+# Équivalent de configure-aws-credentials + déploiement Elastic Beanstalk
+deploy:
+  stage: deploy
+  image:
+    name: amazon/aws-cli:2.15.0
+    entrypoint: [""]
+  id_tokens:
+    AWS_ID_TOKEN:
+      aud: sts.amazonaws.com
+  needs:
+    - build
+  before_script:
+    # L'AWS CLI v2 sait nativement échanger un jeton web identity
+    # contre des credentials temporaires via ces variables d'env.
+    - echo "$AWS_ID_TOKEN" > /tmp/web_identity_token
+    - export AWS_ROLE_ARN="$ROLE_ARN"
+    - export AWS_WEB_IDENTITY_TOKEN_FILE=/tmp/web_identity_token
+    - export AWS_DEFAULT_REGION="$AWS_REGION"
+  script:
+    - VERSION="$CI_COMMIT_SHA"
+    - aws s3 cp app.zip "s3://${S3_BUCKET}/${VERSION}.zip"
+    - >
+      aws elasticbeanstalk create-application-version
+      --application-name "$EB_APPLICATION"
+      --version-label "$VERSION"
+      --source-bundle S3Bucket="$S3_BUCKET",S3Key="${VERSION}.zip"
+    - >
+      aws elasticbeanstalk update-environment
+      --environment-name "$EB_ENVIRONMENT"
+      --version-label "$VERSION"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
