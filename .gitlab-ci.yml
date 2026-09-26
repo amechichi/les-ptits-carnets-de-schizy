@@ -57,16 +57,29 @@ deploy:
     - export AWS_WEB_IDENTITY_TOKEN_FILE=/tmp/web_identity_token
     - export AWS_DEFAULT_REGION="$AWS_REGION"
   script:
-    - VERSION="$CI_COMMIT_SHA"
-    - aws s3 cp app.zip "s3://${S3_BUCKET}/${VERSION}.zip"
-    - >
-      aws elasticbeanstalk create-application-version
-      --application-name "$EB_APPLICATION"
-      --version-label "$VERSION"
-      --source-bundle S3Bucket="$S3_BUCKET",S3Key="${VERSION}.zip"
-    - >
-      aws elasticbeanstalk update-environment
-      --environment-name "$EB_ENVIRONMENT"
-      --version-label "$VERSION"
+      - VERSION="$CI_COMMIT_SHA"
+      - aws s3 cp app.zip "s3://${S3_BUCKET}/${VERSION}.zip"
+      # Idempotence : si un retry de pipeline retombe sur le même commit,
+      # la version existe déjà côté Elastic Beanstalk. On ne la recrée pas.
+      - >
+          EXISTING_VERSION=$(aws elasticbeanstalk describe-application-versions
+          --application-name "$EB_APPLICATION"
+          --version-labels "$VERSION"
+          --query 'ApplicationVersions[0].VersionLabel'
+          --output text)
+      - |
+          if [ "$EXISTING_VERSION" == "None" ] || [ -z "$EXISTING_VERSION" ]; then
+            echo "Création de la version $VERSION..."
+            aws elasticbeanstalk create-application-version \
+              --application-name "$EB_APPLICATION" \
+              --version-label "$VERSION" \
+              --source-bundle S3Bucket="$S3_BUCKET",S3Key="${VERSION}.zip"
+          else
+            echo "La version $VERSION existe déjà, on saute la création."
+          fi
+      - >
+          aws elasticbeanstalk update-environment
+          --environment-name "$EB_ENVIRONMENT"
+          --version-label "$VERSION"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+      -   if: '$CI_COMMIT_BRANCH == "main"'
