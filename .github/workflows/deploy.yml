@@ -9,6 +9,7 @@ permissions:
     contents: read
 
 jobs:
+    # Pour connaitre le sub correct à mettre côté AWS sinon ça marche pas
     run_job_with_aws:
         runs-on: ubuntu-latest
         steps:
@@ -20,23 +21,23 @@ jobs:
 
     deploy:
         runs-on: ubuntu-latest
-        permissions:
-            id-token: write # Indispensable pour l'authentification OIDC
-            contents: read  # Requis pour faire le checkout du code
         steps:
             -   uses: actions/checkout@v4
+
             -   uses: shivammathur/setup-php@v2
                 with:
                     php-version: '8.5'
+
             -   name: Installer les dépendances
                 run: composer install #--no-dev --optimize-autoloader --no-interaction
-            # - name: Tests (à faire avant le --no-dev si besoin de PHPUnit)
+
             -   name: Créer l'archive
                 run: zip -r app.zip . -x '.git/*' 'var/cache/*' 'var/log/*'
+
             -   uses: aws-actions/configure-aws-credentials@v4
                 with:
-                    role-to-assume: arn:aws:iam::911558392127:role/deploy
                     aws-region: eu-west-3
+                    role-to-assume: arn:aws:iam::911558392127:role/deploy
 
             -   name: Déployer
                 run: |
