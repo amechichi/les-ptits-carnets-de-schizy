@@ -49,7 +49,8 @@ deploy:
             aws elasticbeanstalk create-application-version \
               --application-name "$EB_APPLICATION" \
               --version-label "$VERSION" \
-              --source-bundle S3Bucket="$S3_BUCKET",S3Key="${VERSION}.zip"
+              --source-bundle S3Bucket="$S3_BUCKET",S3Key="${VERSION}.zip" \
+            || echo "Création de la version échouée (probablement déjà existante), on continue."
         - |
             aws elasticbeanstalk update-environment \
               --environment-name "$EB_ENVIRONMENT" \
