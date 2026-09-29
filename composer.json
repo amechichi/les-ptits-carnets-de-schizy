@@ -7,6 +7,8 @@
         "php": ">=8.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "bref/bref": "^3.0",
+        "bref/symfony-bridge": "^3.0",
         "symfony/apache-pack": "*",
         "symfony/asset": "8.1.*",
         "symfony/asset-mapper": "8.1.*",

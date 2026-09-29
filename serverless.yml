@@ -1,0 +1,27 @@
+service: les-ptits-carnets-de-schizy
+
+provider:
+    name: aws
+    region: eu-west-3
+    runtime: provided.al2023
+    # environment:
+    #   APP_ENV: prod
+    #   APP_SECRET: ${env:APP_SECRET}
+
+plugins:
+    - ./vendor/bref/bref
+
+functions:
+    web:
+        handler: public/index.php
+        runtime: php-85-fpm
+        timeout: 28
+        events:
+            -   httpApi: '*'
+
+package:
+    patterns:
+        - '!node_modules/**'
+        - '!tests/**'
+        - '!var/**'
+        - '!.git/**'
