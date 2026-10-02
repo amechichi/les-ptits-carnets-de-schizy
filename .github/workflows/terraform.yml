@@ -1,0 +1,31 @@
+name: Terraform
+
+on:
+    push:
+        branches: [main]
+        paths: ["**.tf"] # Pas la peine de refaire un terraform apply si rien n'a changé
+
+permissions:
+    id-token: write # nécessaire pour l'OIDC
+    contents: read
+
+concurrency: terraform # jamais deux runs en même temps (verrou du state)
+
+jobs:
+    terraform:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: hashicorp/setup-terraform@v4
+              with:
+                  terraform_version: "~1.10"
+
+            - uses: aws-actions/configure-aws-credentials@v4
+              with:
+                  aws-region: eu-west-3
+                  role-to-assume: arn:aws:iam::911558392127:role/deploy
+
+            - run: terraform init -input=false
+            - run: terraform validate
+            - run: terraform apply -input=false -auto-approve
