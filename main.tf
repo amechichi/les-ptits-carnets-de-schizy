@@ -10,12 +10,12 @@ data "aws_elastic_beanstalk_solution_stack" "php" {
 
 # L'application
 resource "aws_elastic_beanstalk_application" "app" {
-    name = "les-ptits-carnets-de-schizy-tf"
+    name = "les-ptits-carnets-de-schizy"
 }
 
 # L'environnement
 resource "aws_elastic_beanstalk_environment" "env" {
-    name                = "carnets-de-schizy"
+    name                = "les-ptits-carnets-de-schizy-env"
     application         = aws_elastic_beanstalk_application.app.name
     solution_stack_name = data.aws_elastic_beanstalk_solution_stack.php.name
 

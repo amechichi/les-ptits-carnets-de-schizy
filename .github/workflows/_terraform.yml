@@ -1,9 +1,7 @@
 name: Terraform
 
 on:
-    push:
-        branches: [main]
-        paths: ["**.tf"] # Pas la peine de refaire un terraform apply si rien n'a changé
+    workflow_call:
 
 permissions:
     id-token: write # nécessaire pour l'OIDC
