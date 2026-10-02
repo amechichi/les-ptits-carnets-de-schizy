@@ -1,0 +1,33 @@
+name: Destroy
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Tapez "destroy" pour confirmer la destruction'
+        required: true
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency: terraform # partagé avec deploy.yml
+
+jobs:
+  destroy:
+    if: inputs.confirm == 'destroy'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: "~1.10"
+
+      -   uses: aws-actions/configure-aws-credentials@v4
+          with:
+              aws-region: eu-west-3
+              role-to-assume: arn:aws:iam::911558392127:role/deploy
+
+      - run: terraform init -input=false
+      - run: terraform destroy -input=false -auto-approve
