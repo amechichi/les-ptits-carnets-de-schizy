@@ -31,3 +31,6 @@ jobs:
 
       - run: terraform init -input=false
       - run: terraform destroy -input=false -auto-approve
+
+      # Vide le bucket EB - attention c'est le même bucket pour TOUTES mes app EB xD
+      - run: aws s3 rm s3://elasticbeanstalk-eu-west-3-911558392127 --recursive
