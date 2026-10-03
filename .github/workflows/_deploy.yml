@@ -41,11 +41,15 @@ jobs:
             -   name: Déployer
                 run: |
                     VERSION=${{ github.sha }}
+
                     aws s3 cp app.zip s3://elasticbeanstalk-eu-west-3-911558392127/$VERSION.zip
+
                     aws elasticbeanstalk create-application-version \
                       --application-name les-ptits-carnets-de-schizy \
                       --version-label $VERSION \
-                      --source-bundle S3Bucket=elasticbeanstalk-eu-west-3-911558392127,S3Key=$VERSION.zip
+                      --source-bundle S3Bucket=elasticbeanstalk-eu-west-3-911558392127,S3Key=$VERSION.zip \
+                    || echo "Création de la version échouée (probablement déjà existante), on continue."
+
                     aws elasticbeanstalk update-environment \
                       --environment-name les-ptits-carnets-de-schizy-env \
                       --version-label $VERSION
