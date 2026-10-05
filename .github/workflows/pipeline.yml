@@ -1,8 +1,10 @@
 name: Pipeline
 
+# On déploie soit manuellement soit en créant un tag qui commence par "v" (ex: v1.0)
 on:
+    workflow_dispatch:
     push:
-        branches: [main]
+        tags: ["v*"]
 
 permissions:
     id-token: write

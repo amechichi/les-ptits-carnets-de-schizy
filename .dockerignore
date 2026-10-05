@@ -1,0 +1,15 @@
+.git
+.github
+.idea
+.vscode
+node_modules
+vendor
+var
+.env.local
+.env.*.local
+docker-compose*.yml
+Dockerfile
+README.md
+tests
+
+public/assets
