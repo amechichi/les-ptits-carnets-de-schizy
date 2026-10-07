@@ -8,6 +8,7 @@ stages:
     - build
     - terraform
     - deploy
+    - destroy
 
 variables:
     AWS_REGION: eu-west-3
@@ -79,3 +80,23 @@ deploy:
             aws elasticbeanstalk update-environment \
               --environment-name "$EB_ENVIRONMENT" \
               --version-label "$VERSION"
+
+destroy:
+    stage: destroy
+    needs:
+        - deploy
+    image:
+        name: hashicorp/terraform:1.10
+        entrypoint: [""]
+    resource_group: terraform
+    id_tokens:
+        AWS_OIDC_TOKEN:
+            aud: sts.amazonaws.com
+    variables:
+        AWS_WEB_IDENTITY_TOKEN_FILE: /tmp/aws_oidc_token
+    before_script:
+        - echo "$AWS_OIDC_TOKEN" > "$AWS_WEB_IDENTITY_TOKEN_FILE"
+    script:
+        - terraform init -input=false
+        - terraform destroy -input=false -auto-approve
+    when: manual
