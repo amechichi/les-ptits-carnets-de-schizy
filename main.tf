@@ -14,6 +14,11 @@ provider "aws" {
     region = "eu-west-3"
 }
 
+resource "aws_s3_bucket" "eb" {
+    bucket        = "elasticbeanstalk-eu-west-3-911558392127"
+    force_destroy = true # bypass la règle qui interdit la suppression
+}
+
 # La plateforme PHP à utiliser
 data "aws_elastic_beanstalk_solution_stack" "php" {
     most_recent = true
@@ -30,6 +35,7 @@ resource "aws_elastic_beanstalk_environment" "env" {
     name                = "les-ptits-carnets-de-schizy-env"
     application         = aws_elastic_beanstalk_application.app.name
     solution_stack_name = data.aws_elastic_beanstalk_solution_stack.php.name
+    depends_on = [aws_s3_bucket.eb] # Pour créer le S3 avant l'app puis pour le détruire après l'app
 
     setting {
         namespace = "aws:elasticbeanstalk:environment"
