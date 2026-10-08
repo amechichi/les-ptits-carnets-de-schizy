@@ -96,7 +96,10 @@ destroy:
         AWS_WEB_IDENTITY_TOKEN_FILE: /tmp/aws_oidc_token
     before_script:
         - echo "$AWS_OIDC_TOKEN" > "$AWS_WEB_IDENTITY_TOKEN_FILE"
+        - apk add --no-cache aws-cli # On installe le cli aws
     script:
+        # On supprime la policy qui bloque la suppression du S3 d'EB
+        - aws s3api delete-bucket-policy --region "$AWS_REGION" --bucket "$S3_BUCKET" || true
         - terraform init -input=false
         - terraform destroy -input=false -auto-approve
     when: manual
