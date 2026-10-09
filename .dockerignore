@@ -1,15 +1,32 @@
+# Git
 .git
 .github
+.gitignore
+.gitlab-ci.yml
+
+# IDE
 .idea
 .vscode
+
+# Terraform
+.terraform
+.terraform.lock.hcl
+terraform.tfstate*
+*.tf
+
+# Docker
+docker-compose*.yml
+Dockerfile
+.dockerignore
+
+# Project
 node_modules
 vendor
 var
 .env.local
 .env.*.local
-docker-compose*.yml
-Dockerfile
 README.md
 tests
-
 public/assets
+serverless.yml
+.platform
