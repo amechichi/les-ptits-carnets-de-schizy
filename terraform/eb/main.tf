@@ -3,7 +3,7 @@ terraform {
 
     backend "s3" {
         bucket       = "terraform-911558392127-eu-west-3-an"
-        key          = "tfstate/terraform.tfstate"
+        key          = "eb/terraform.tfstate" # 1 fichier différent par config terraform pour gérer leur state
         region       = "eu-west-3"
         encrypt      = true
         use_lockfile = true
