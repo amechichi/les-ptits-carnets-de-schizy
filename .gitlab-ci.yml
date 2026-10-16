@@ -45,6 +45,8 @@ terraform:
     before_script:
         - echo "$AWS_OIDC_TOKEN" > "$AWS_WEB_IDENTITY_TOKEN_FILE"
     script:
+        # Change directory to EB config & applyg
+        - cd terraform/eb
         - terraform init -input=false
         - terraform validate
         - terraform apply -input=false -auto-approve
@@ -100,6 +102,9 @@ destroy:
     script:
         # On supprime la policy qui bloque la suppression du S3 d'EB
         - aws s3api delete-bucket-policy --region "$AWS_REGION" --bucket "$S3_BUCKET" || true
+
+        # Change directory to EB config & destroy
+        - cd terraform/eb
         - terraform init -input=false
         - terraform destroy -input=false -auto-approve
     when: manual
