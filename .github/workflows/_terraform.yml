@@ -12,6 +12,9 @@ concurrency: terraform # jamais deux runs en même temps (verrou du state)
 jobs:
     terraform:
         runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: terraform/eb # Change le dossier par défaut pour executer les run !
         steps:
             - uses: actions/checkout@v4
 
