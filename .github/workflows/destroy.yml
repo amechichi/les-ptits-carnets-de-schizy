@@ -17,14 +17,17 @@ jobs:
   destroy:
     if: inputs.confirm == 'destroy'
     runs-on: ubuntu-latest
+    defaults:
+        run:
+            working-directory: terraform/ecs # Change le dossier par défaut pour executer les run !
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: "~1.10"
 
-      -   uses: aws-actions/configure-aws-credentials@v4
+      -   uses: aws-actions/configure-aws-credentials@v6
           with:
               aws-region: eu-west-3
               role-to-assume: arn:aws:iam::911558392127:role/deploy
