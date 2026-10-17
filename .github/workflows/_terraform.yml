@@ -16,7 +16,7 @@ jobs:
             run:
                 working-directory: terraform/ecs # Change le dossier par défaut pour executer les run !
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v7
 
             - uses: hashicorp/setup-terraform@v4
               with:
@@ -32,4 +32,3 @@ jobs:
             - run: terraform apply -input=false -auto-approve
             - run: echo "::notice title=Déploiement réussi::Je peux aussi créer des annotations personalisées ?"
             - run: echo "### ✅ Déployé ! Je peux créer une nouvelle catégorie du run ?" >> "$GITHUB_STEP_SUMMARY"
-
