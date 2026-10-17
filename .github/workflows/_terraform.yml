@@ -22,7 +22,7 @@ jobs:
               with:
                   terraform_version: "~1.10"
 
-            - uses: aws-actions/configure-aws-credentials@v4
+            - uses: aws-actions/configure-aws-credentials@v6
               with:
                   aws-region: eu-west-3
                   role-to-assume: arn:aws:iam::911558392127:role/deploy
