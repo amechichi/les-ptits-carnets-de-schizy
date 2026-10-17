@@ -14,6 +14,7 @@ jobs:
     terraform:
         uses: ./.github/workflows/_terraform.yml
 
-    deploy:
-        needs: terraform
-        uses: ./.github/workflows/_deploy.yml
+#    deploy:
+#        needs: terraform
+#        uses: ./.github/workflows/_deploy.yml
+#
