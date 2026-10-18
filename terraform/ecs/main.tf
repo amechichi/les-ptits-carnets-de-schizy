@@ -28,11 +28,11 @@ resource "aws_security_group" "app" {
         cidr_blocks = ["0.0.0.0/0"]
     }
 
-    # C'est quoi egress ? C'est vraiment important de le préciser ?
+    # Pour autoriser le pull de l'image depuis GHCR, https suffit
     egress {
-        from_port   = 0
-        to_port     = 0
-        protocol    = "-1"
+        from_port   = 443
+        to_port     = 443
+        protocol    = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
 }
@@ -53,7 +53,6 @@ resource "aws_ecs_task_definition" "app" {
     container_definitions = jsonencode([{
         name         = "app"
         image        = "ghcr.io/amechichi/les-ptits-carnets-de-schizy:latest"
-        essential    = true
         portMappings = [{ containerPort = 80 }]
     }])
 }
