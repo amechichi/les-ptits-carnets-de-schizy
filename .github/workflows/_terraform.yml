@@ -2,6 +2,11 @@ name: Terraform
 
 on:
     workflow_call:
+        inputs:
+            working-directory:
+                description: "Dossier Terraform (terraform/eb ou terraform/ecs)"
+                required: true
+                type: string
 
 permissions:
     id-token: write # nécessaire pour l'OIDC
@@ -14,7 +19,7 @@ jobs:
         runs-on: ubuntu-latest
         defaults:
             run:
-                working-directory: terraform/ecs # Change le dossier par défaut pour executer les run !
+                working-directory: ${{ inputs.working-directory }}
         steps:
             - uses: actions/checkout@v7
 
@@ -30,5 +35,4 @@ jobs:
             - run: terraform init -input=false
             - run: terraform validate
             - run: terraform apply -input=false -auto-approve
-            - run: echo "::notice title=Déploiement réussi::Je peux aussi créer des annotations personalisées ?"
-            - run: echo "### ✅ Déployé ! Je peux créer une nouvelle catégorie du run ?" >> "$GITHUB_STEP_SUMMARY"
+            - run: echo "### ✅ Infra ${{ inputs.working-directory }} appliquée" >> "$GITHUB_STEP_SUMMARY"

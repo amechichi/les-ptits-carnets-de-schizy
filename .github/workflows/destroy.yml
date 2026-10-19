@@ -3,6 +3,11 @@ name: Destroy
 on:
   workflow_dispatch:
     inputs:
+      target:
+        description: "Infra à détruire"
+        type: choice
+        options: [ecs, eb]
+        required: true
       confirm:
         description: 'Tapez "destroy" pour confirmer la destruction'
         required: true
@@ -11,7 +16,7 @@ permissions:
   id-token: write
   contents: read
 
-concurrency: terraform # partagé avec deploy.yml
+concurrency: terraform # partagé avec _terraform.yml
 
 jobs:
   destroy:
@@ -19,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
         run:
-            working-directory: terraform/ecs # Change le dossier par défaut pour executer les run !
+            working-directory: terraform/${{ inputs.target }}
     steps:
       - uses: actions/checkout@v7
 

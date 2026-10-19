@@ -1,0 +1,45 @@
+name: Deploy Elastic Beanstalk
+
+on:
+    workflow_call:
+
+permissions:
+    id-token: write # Obligatoire pour OIDC
+    contents: read
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v4
+
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.5'
+
+            -   name: Installer les dépendances
+                run: composer install #--no-dev --optimize-autoloader --no-interaction
+
+            -   name: Créer l'archive
+                run: zip -r app.zip . -x '.git/*' 'var/cache/*' 'var/log/*'
+
+            -   uses: aws-actions/configure-aws-credentials@v4
+                with:
+                    aws-region: eu-west-3
+                    role-to-assume: arn:aws:iam::911558392127:role/deploy
+
+            -   name: Déployer
+                run: |
+                    VERSION=${{ github.sha }}
+
+                    aws s3 cp app.zip s3://elasticbeanstalk-eu-west-3-911558392127/$VERSION.zip
+
+                    aws elasticbeanstalk create-application-version \
+                      --application-name les-ptits-carnets-de-schizy \
+                      --version-label $VERSION \
+                      --source-bundle S3Bucket=elasticbeanstalk-eu-west-3-911558392127,S3Key=$VERSION.zip \
+                    || echo "Création de la version échouée (probablement déjà existante), on continue."
+
+                    aws elasticbeanstalk update-environment \
+                      --environment-name les-ptits-carnets-de-schizy-env \
+                      --version-label $VERSION

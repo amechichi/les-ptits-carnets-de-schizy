@@ -1,0 +1,38 @@
+name: Redeploy ECS (latest image)
+
+on:
+    workflow_dispatch:
+
+# Un seul déploiement à la fois
+concurrency:
+    group: deploy-ecs
+    cancel-in-progress: false
+
+permissions:
+    id-token: write # OIDC
+    contents: read
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Configure AWS credentials (OIDC)
+              uses: aws-actions/configure-aws-credentials@v6
+              with:
+                  role-to-assume: arn:aws:iam::911558392127:role/deploy
+                  aws-region: eu-west-3
+
+            # Fargate re-pull l'image latest au démarrage de chaque nouvelle tâche
+            - name: Force new deployment
+              run: |
+                  aws ecs update-service \
+                    --cluster "les-ptits-carnets-de-schizy" \
+                    --service "les-ptits-carnets-de-schizy" \
+                    --force-new-deployment
+
+            # Fait échouer le job si la nouvelle tâche ne démarre pas
+            - name: Wait for service stability
+              run: |
+                  aws ecs wait services-stable \
+                    --cluster "les-ptits-carnets-de-schizy" \
+                    --services "les-ptits-carnets-de-schizy"

@@ -1,0 +1,27 @@
+name: Pipeline EB
+
+# Build Docker -> Terraform (infra Elastic Beanstalk) -> Déploiement EB
+# Manuel, ou en créant un tag qui commence par "v" (ex: v1.0)
+on:
+    workflow_dispatch:
+    push:
+        tags: ["v*"]
+
+permissions:
+    id-token: write
+    contents: read
+    packages: write
+
+jobs:
+    docker:
+        uses: ./.github/workflows/_docker.yml
+
+    terraform:
+        needs: docker
+        uses: ./.github/workflows/_terraform.yml
+        with:
+            working-directory: terraform/eb
+
+    deploy:
+        needs: terraform
+        uses: ./.github/workflows/_deploy-eb.yml

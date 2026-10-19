@@ -1,0 +1,34 @@
+name: Terraform
+
+on:
+    workflow_call:
+
+permissions:
+    id-token: write # nécessaire pour l'OIDC
+    contents: read
+
+concurrency: terraform # jamais deux runs en même temps (verrou du state)
+
+jobs:
+    terraform:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: terraform/ecs # Change le dossier par défaut pour executer les run !
+        steps:
+            - uses: actions/checkout@v7
+
+            - uses: hashicorp/setup-terraform@v4
+              with:
+                  terraform_version: "~1.10"
+
+            - uses: aws-actions/configure-aws-credentials@v6
+              with:
+                  aws-region: eu-west-3
+                  role-to-assume: arn:aws:iam::911558392127:role/deploy
+
+            - run: terraform init -input=false
+            - run: terraform validate
+            - run: terraform apply -input=false -auto-approve
+            - run: echo "::notice title=Déploiement réussi::Je peux aussi créer des annotations personalisées ?"
+            - run: echo "### ✅ Déployé ! Je peux créer une nouvelle catégorie du run ?" >> "$GITHUB_STEP_SUMMARY"

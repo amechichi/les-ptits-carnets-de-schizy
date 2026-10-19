@@ -1,6 +1,8 @@
 name: Redeploy ECS (latest image)
 
+# workflow_call : appelé par "Pipeline ECS" / workflow_dispatch : redéploiement manuel seul
 on:
+    workflow_call:
     workflow_dispatch:
 
 # Un seul déploiement à la fois

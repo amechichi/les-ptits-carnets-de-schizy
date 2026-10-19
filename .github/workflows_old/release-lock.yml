@@ -1,0 +1,20 @@
+name: Release Terraform lock
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  release-lock:
+    runs-on: ubuntu-latest
+    steps:
+      -   uses: aws-actions/configure-aws-credentials@v4
+          with:
+              aws-region: eu-west-3
+              role-to-assume: arn:aws:iam::911558392127:role/deploy
+
+      # Supprime le fichier de lock directement du bucket
+      - run: aws s3 rm s3://terraform-911558392127-eu-west-3-an/tfstate/terraform.tfstate.tflock
