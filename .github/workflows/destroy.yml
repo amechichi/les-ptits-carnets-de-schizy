@@ -39,3 +39,4 @@ jobs:
 
       - run: terraform init -input=false
       - run: terraform destroy -input=false -auto-approve
+      - run: echo "### ⛓️‍💥💥 Infra ${{ inputs.target }} détruite" >> "$GITHUB_STEP_SUMMARY"
